@@ -15,3 +15,15 @@ library(ggplot2)
     
     # Create ggplot scatter
 
+server <- function(input, output) {
+  output$scatter <- renderPlot({
+    x_d <- mpg[[input$x_var]]
+    y_d <- mpg[[input$y_var]]
+    p <- ggplot(data = mpg) +
+      geom_point(mapping = aes(x = x_d, y = y_d), color = input$color, size = input$size)
+    p
+  })
+}
+
+shinyServer(server)
+
