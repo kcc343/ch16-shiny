@@ -24,6 +24,13 @@ library(shiny)
   
   # A `textOutput()` output of a calculated value labeled `cost`
 
+ui <- fluidPage(
+  titlePanel(title = strong("Cost"), "Calculator"),
+  numericInput(inputId = "price", label = "Price (in dollars)", value = 0, min = 0),
+  numericInput(inputId = "quantity", label = "Quantity", value = 1, min = 1),
+  strong("Cost"),
+  textOutput("cost")
+)
 
 
 
@@ -35,5 +42,12 @@ library(shiny)
   # The reactive expression should return the input `price` times the `quantity`
   # So it looks nice, paste a "$" in front of it!
 
+server <- function(input, output) {
+  output$cost <- renderText({
+     total <- paste0("$ ", input$price * input$quantity)
+     return(total)
+  })
+}
 
 # Create a new `shinyApp()` using the above ui and server
+shinyApp(ui = ui, server = server)
